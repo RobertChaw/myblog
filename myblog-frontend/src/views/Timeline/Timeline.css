@@ -1,0 +1,11 @@
+.ant-timeline-item-head {
+    margin-top: 3px;
+}
+
+.ant-timeline-item-tail {
+    inset-block-start: 13px !important;
+    inset-inline-start: 4px !important;
+    height: calc(100% - 10px) !important;
+}
+
+/*# sourceMappingURL=Timeline.css.map */

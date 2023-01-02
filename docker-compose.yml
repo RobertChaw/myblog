@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  backend:
+    build: ./myblog-backend-rebuild
+    volumes:
+      - "logs:/logs"
+  proxy:
+    build: .
+    volumes:
+      - "logs:/logs"
+    ports:
+      - "80:80"
+      - "443:443"
+volumes:
+  logs:
