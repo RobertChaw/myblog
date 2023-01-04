@@ -8,7 +8,7 @@ import {useState} from 'react';
 // import {useNavigate} from "@@/exports";
 import {useRequest} from 'ahooks';
 import {Comments} from '@/components/Comment/CommentList';
-
+import 'github-markdown-css'
 interface EditorProps {
   value: string;
   onChange?: (text: string) => any;
@@ -37,6 +37,7 @@ const Editor = ({value = '', onChange = undefined}: EditorProps) => {
         renderHTML={(text) => mdParser.render(text)}
         onChange={handleEditorChange}
         onImageUpload={handleImageUpload}
+        htmlClass="markdown-body"
       />
     </div>
   );

@@ -13,6 +13,7 @@ import {
 import {useNavigate, useParams} from 'umi';
 import {useRequest} from 'ahooks';
 import {PageContainer} from '@ant-design/pro-components';
+import 'github-markdown-css'
 
 const Editor = ({value = '', onChange = undefined}: any) => {
   const form = Form.useFormInstance();
@@ -36,9 +37,11 @@ const Editor = ({value = '', onChange = undefined}: any) => {
       <MdEditor
         value={value}
         style={{minHeight: '700px', maxHeight: 'auto'}}
+        className=""
         renderHTML={(text) => mdParser.render(text)}
         onChange={handleEditorChange}
         onImageUpload={handleImageUpload}
+        htmlClass="markdown-body"
       />
     </div>
   );
