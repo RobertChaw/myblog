@@ -7,7 +7,7 @@ import {useRequest} from "ahooks";
 import {getArticle} from "../../config/api";
 import {absolute} from "../../utils/dateformat";
 import "./Article.scss";
-
+import 'github-markdown-css'
 const {Title, Link, Text} = Typography;
 const md = new MarkdownIt();
 export default function Article() {
@@ -54,7 +54,7 @@ export default function Article() {
                     </Space>
                 </div>
                 <Divider/>
-                <div dangerouslySetInnerHTML={{__html: content}}></div>
+                <article className="markdown-body" dangerouslySetInnerHTML={{__html: content}}></article>
                 <Divider>评论区</Divider>
                 {/*<div>评论...</div>*/}
                 <Comments articleId={Number(id)}/>

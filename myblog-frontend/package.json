@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "clean": "rimraf node_modules && rimraf dist"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.2",
@@ -15,6 +15,7 @@
     "ahooks": "^3.7.2",
     "antd": "^5.0.4",
     "axios": "^1.2.1",
+    "github-markdown-css": "^5.1.0",
     "markdown-it": "^13.0.1",
     "randomcolor": "^0.6.2",
     "react": "^18.2.0",
@@ -35,7 +36,6 @@
     "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.31.11",
-    "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
     "postcss": "^8.4.19",
     "prettier": "^2.8.0",
