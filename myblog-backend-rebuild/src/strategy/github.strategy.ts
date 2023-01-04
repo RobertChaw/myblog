@@ -52,7 +52,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     return {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: 'https://robertchaw.me/api/LoginByGithub/cb',
+      callbackURL: 'https://robertchaw.me/api/login/github/cb',
     };
   }
 }
