@@ -1,9 +1,10 @@
-//datasource db {
-//  url      = "file:./dev.db"
+// datasource db {
+//   url      = "file:./dev.db"
 //  provider = "sqlite"
-//}
+// }
+
 datasource db {
-  url      = "mysql://root:vOKFWAV7pw3YI%Wp@gz-cynosdbmysql-grp-gwip1bsp.sql.tencentcdb.com:28520/blog"
+  url      = env("DB_URL")
   provider = "mysql"
 }
 

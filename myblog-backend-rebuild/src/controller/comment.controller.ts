@@ -8,9 +8,9 @@ import {
   UseGuard,
   Session,
 } from '@midwayjs/decorator';
-import {Context} from '@midwayjs/koa';
-import {prisma} from '../prisma';
-import {AuthGuard} from '../guard/auth.guard';
+import { Context } from '@midwayjs/koa';
+import { prisma } from '../prisma';
+import { AuthGuard } from '../guard/auth.guard';
 
 @Controller('/api')
 export class CommentController {
@@ -52,7 +52,7 @@ export class CommentController {
       parentId?: number;
       rootId?: number;
     };
-    const {message, articleId, parentId, rootId}: body = body;
+    const { message, articleId, parentId, rootId }: body = body;
     const comment = await prisma.comment.create({
       data: {
         userId: session.user.user.id,
@@ -63,7 +63,7 @@ export class CommentController {
       },
     });
 
-    return {...comment};
+    return { ...comment };
   }
 
   @UseGuard(AuthGuard)
@@ -74,7 +74,7 @@ export class CommentController {
         id,
       },
     });
-    return {...comment};
+    return { ...comment };
   }
 
   @Get('/getCommentsList')

@@ -7,9 +7,9 @@ import {
   Body,
   UseGuard,
 } from '@midwayjs/decorator';
-import {Context} from '@midwayjs/koa';
-import {prisma} from '../prisma';
-import {AdminAuthGuard, AuthGuard} from '../guard/auth.guard';
+import { Context } from '@midwayjs/koa';
+import { prisma } from '../prisma';
+import { AdminAuthGuard, AuthGuard } from '../guard/auth.guard';
 
 @Controller('/api')
 export class UserController {
@@ -29,7 +29,7 @@ export class UserController {
         id: data.id,
       },
     });
-    return {...user};
+    return { ...user };
   }
 
   @UseGuard([AdminAuthGuard])
@@ -42,21 +42,21 @@ export class UserController {
     const whereConditions =
       params && params.q
         ? {
-          where: {
-            OR: [
-              {
-                username: {
-                  contains: params.q,
+            where: {
+              OR: [
+                {
+                  username: {
+                    contains: params.q,
+                  },
                 },
-              },
-              {
-                name: {
-                  contains: params.q,
+                {
+                  name: {
+                    contains: params.q,
+                  },
                 },
-              },
-            ],
-          },
-        }
+              ],
+            },
+          }
         : {};
 
     const usersList = await prisma.user.findMany({
@@ -65,7 +65,7 @@ export class UserController {
       where: {
         ...whereConditions.where,
       },
-      orderBy: [{isAdmin: 'desc'}],
+      orderBy: [{ isAdmin: 'desc' }],
     });
     usersList.forEach(element => {
       element.password = '';
@@ -93,7 +93,7 @@ export class UserController {
     });
 
     user.password = '';
-    return {...user};
+    return { ...user };
   }
 
   // @Get('/getGithubProfile', { middleware: [LocalPassportMiddleware] })

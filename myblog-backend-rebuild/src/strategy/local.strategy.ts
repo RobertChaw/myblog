@@ -1,7 +1,7 @@
-import {CustomStrategy, PassportStrategy} from '@midwayjs/passport';
-import {Strategy} from 'passport-local';
-import {prisma} from '../prisma';
-import {HttpStatus, MidwayHttpError} from '@midwayjs/core';
+import { CustomStrategy, PassportStrategy } from '@midwayjs/passport';
+import { Strategy } from 'passport-local';
+import { prisma } from '../prisma';
+import { HttpStatus, MidwayHttpError } from '@midwayjs/core';
 
 @CustomStrategy()
 export class LocalStrategy extends PassportStrategy(Strategy, 'local') {

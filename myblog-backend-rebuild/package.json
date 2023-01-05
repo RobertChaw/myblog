@@ -17,6 +17,7 @@
     "@midwayjs/upload": "^3.8.0",
     "@midwayjs/validate": "^3.0.0",
     "@prisma/client": "^4.7.0",
+    "dotenv": "^16.0.3",
     "esno": "^0.16.3",
     "nanoid": "^3.3.4",
     "passport-github2": "^0.1.12",

@@ -1,5 +1,5 @@
-import {Guard, IGuard} from '@midwayjs/core';
-import {Context} from '@midwayjs/koa';
+import { Guard, IGuard } from '@midwayjs/core';
+import { Context } from '@midwayjs/koa';
 
 @Guard()
 export class AuthGuard implements IGuard<Context> {

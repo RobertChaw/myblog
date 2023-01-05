@@ -9,11 +9,11 @@ import {
   Fields,
   UseGuard,
 } from '@midwayjs/decorator';
-import {Context} from '@midwayjs/koa';
-import {prisma} from '../prisma';
-import {COSService} from '@midwayjs/cos';
-import {nanoid} from 'nanoid';
-import {AdminAuthGuard, AuthGuard} from '../guard/auth.guard';
+import { Context } from '@midwayjs/koa';
+import { prisma } from '../prisma';
+import { COSService } from '@midwayjs/cos';
+import { nanoid } from 'nanoid';
+import { AdminAuthGuard, AuthGuard } from '../guard/auth.guard';
 
 @Controller('/api')
 export class ArticleController {
@@ -51,7 +51,7 @@ export class ArticleController {
       },
     });
 
-    return {...article};
+    return { ...article };
   }
 
   @Get('/getArticleList')
@@ -59,25 +59,27 @@ export class ArticleController {
     const current = Number(query.current);
     const size = Number(query.size);
     const params = query.params ? JSON.parse(query.params as string) : {};
-    const queryConditions =
-      params && params.q
-        ? {
-          where: {
-            OR: [
-              {
-                title: {
-                  contains: params.q,
-                },
+
+    let queryConditions = { where: undefined };
+    if (params && params.q) {
+      queryConditions = {
+        where: {
+          OR: [
+            {
+              title: {
+                contains: params.q,
               },
-              {
-                content: {
-                  contains: params.q,
-                },
+            },
+            {
+              content: {
+                contains: params.q,
               },
-            ],
-          },
-        }
-        : {};
+            },
+          ],
+        },
+      };
+    }
+
     const articlesList = await prisma.article.findMany({
       skip: (current - 1) * size,
       take: size,
@@ -105,7 +107,7 @@ export class ArticleController {
           },
         ],
       },
-      orderBy: [{createdAt: 'desc'}],
+      orderBy: [{ createdAt: 'desc' }],
     });
 
     const aggregations = await prisma.article.aggregate({
@@ -138,7 +140,7 @@ export class ArticleController {
         title: true,
         viewCount: true,
       },
-      orderBy: {viewCount: 'desc'},
+      orderBy: { viewCount: 'desc' },
       take: 5,
     });
     return [...articles];
@@ -164,7 +166,7 @@ export class ArticleController {
           tags: true,
           createdAt: true,
         },
-        orderBy: {createdAt: 'desc'},
+        orderBy: { createdAt: 'desc' },
         where: {
           type: 'normal',
         },
@@ -190,7 +192,7 @@ export class ArticleController {
         title: true,
         tags: true,
       },
-      orderBy: {createdAt: 'desc'},
+      orderBy: { createdAt: 'desc' },
     });
 
     return [...articles];
@@ -199,8 +201,8 @@ export class ArticleController {
   @UseGuard([AdminAuthGuard])
   @Post('/deleteArticle')
   async deleteArticle(@Body('id') id) {
-    const article = await prisma.article.delete({where: {id}});
-    return {...article};
+    const article = await prisma.article.delete({ where: { id } });
+    return { ...article };
   }
 
   @UseGuard(AuthGuard)
@@ -213,10 +215,10 @@ export class ArticleController {
       description: string;
       tags: string[];
     };
-    const {id, title, content, description, tags}: body = body;
+    const { id, title, content, description, tags }: body = body;
 
     const article = await prisma.article.update({
-      where: {id},
+      where: { id },
       data: {
         title,
         content,
@@ -238,7 +240,7 @@ export class ArticleController {
         },
       },
     });
-    return {...article};
+    return { ...article };
   }
 
   @UseGuard([AdminAuthGuard])
@@ -251,7 +253,7 @@ export class ArticleController {
       description: string;
       tags: string[];
     };
-    const {title, content, description, tags}: body = body;
+    const { title, content, description, tags }: body = body;
 
     const article = await prisma.article.create({
       data: {
@@ -274,7 +276,7 @@ export class ArticleController {
         },
       },
     });
-    return {...article};
+    return { ...article };
   }
 
   @Inject()

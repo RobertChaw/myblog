@@ -1,6 +1,6 @@
-import {Body, Controller, Get, Inject, Post} from '@midwayjs/decorator';
-import {Context} from '@midwayjs/koa';
-import {prisma} from '../prisma';
+import { Body, Controller, Get, Inject, Post } from '@midwayjs/decorator';
+import { Context } from '@midwayjs/koa';
+import { prisma } from '../prisma';
 
 @Controller('/api')
 export class ArticleController {
@@ -14,12 +14,12 @@ export class ArticleController {
         type: 'about',
       },
     });
-    return {...article};
+    return { ...article };
   }
 
   @Post('/updateAbout')
   async updateAbout(@Body('content') content) {
-    const {id} = await prisma.article.findFirst({
+    const { id } = await prisma.article.findFirst({
       select: {
         id: true,
       },
@@ -36,6 +36,6 @@ export class ArticleController {
         id,
       },
     });
-    return {...article};
+    return { ...article };
   }
 }

@@ -1,14 +1,11 @@
-import {CustomStrategy, PassportStrategy} from '@midwayjs/passport';
-import {Strategy, StrategyOptions} from 'passport-github2';
-import {prisma} from '../prisma';
-import {HttpStatus, MidwayHttpError} from '@midwayjs/core';
+import { CustomStrategy, PassportStrategy } from '@midwayjs/passport';
+import { Strategy, StrategyOptions } from 'passport-github2';
+import { prisma } from '../prisma';
+import { HttpStatus, MidwayHttpError } from '@midwayjs/core';
 // import { nanoid } from 'nanoid';
 // import { prisma } from '../prisma';
 // import { Context } from '@midwayjs/koa';
 // import { Provide } from '@midwayjs/decorator';
-
-const GITHUB_CLIENT_ID = '1336179b5140d4305ddf',
-  GITHUB_CLIENT_SECRET = '7bca13cad51a701d4c3c35eb74592a343dd98c20';
 
 @CustomStrategy()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
@@ -16,6 +13,8 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     // 可以只保存用户名
     done(null, user);
   }
+
+  hello() {}
 
   deserializeUser(user, done) {
     // 这里不是异步方法，你可以从其他地方根据用户名，反查用户数据。
@@ -45,13 +44,13 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
 
     if (user.isBanned)
       throw new MidwayHttpError('用户名被禁止登录', HttpStatus.BAD_REQUEST);
-    return {...user};
+    return { ...user };
   }
 
   getStrategyOptions(): StrategyOptions {
     return {
-      clientID: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_CLIENT_SECRET,
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: 'https://robertchaw.me/api/login/github/cb',
     };
   }

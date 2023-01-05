@@ -1,8 +1,8 @@
-import {Controller, Get, Inject, Post, Session} from '@midwayjs/decorator';
-import {Context} from '@midwayjs/koa';
-import {LocalPassportMiddleware} from '../middleware/local.middleware';
-import {GithubPassportMiddleware} from '../middleware/github.middleware';
-import {HttpStatus, MidwayHttpError} from '@midwayjs/core';
+import { Controller, Get, Inject, Post, Session } from '@midwayjs/decorator';
+import { Context } from '@midwayjs/koa';
+import { LocalPassportMiddleware } from '../middleware/local.middleware';
+import { GithubPassportMiddleware } from '../middleware/github.middleware';
+import { HttpStatus, MidwayHttpError } from '@midwayjs/core';
 
 // import { HttpStatus, MidwayHttpError } from '@midwayjs/core';
 
@@ -15,10 +15,10 @@ export class AuthController {
   async outLogin(@Session() session) {
     session.user = null;
     // ctx.cookies.set('loggedIn')
-    return {msg: '登出成功'};
+    return { msg: '登出成功' };
   }
 
-  @Post('/login', {middleware: [LocalPassportMiddleware]})
+  @Post('/login', { middleware: [LocalPassportMiddleware] })
   async Login() {
     return {
       status: 'ok',
@@ -36,7 +36,7 @@ export class AuthController {
   }
 
   // @Get('/LoginByGithub/cb', { middleware: [GithubPassportMiddleware] })
-  @Get('/login/github/cb', {middleware: [GithubPassportMiddleware]})
+  @Get('/login/github/cb', { middleware: [GithubPassportMiddleware] })
   async GithubCallback(@Session() session) {
     this.ctx.redirect(`/redirect`);
   }

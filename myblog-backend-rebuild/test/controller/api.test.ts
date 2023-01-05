@@ -1,5 +1,5 @@
-import {createApp, close, createHttpRequest} from '@midwayjs/mock';
-import {Framework} from '@midwayjs/koa';
+import { createApp, close, createHttpRequest } from '@midwayjs/mock';
+import { Framework } from '@midwayjs/koa';
 
 describe('test/controller/home.test.ts', () => {
   it('should POST /api/get_user', async () => {
@@ -9,7 +9,7 @@ describe('test/controller/home.test.ts', () => {
     // make request
     const result = await createHttpRequest(app)
       .get('/api/get_user')
-      .query({uid: 123});
+      .query({ uid: 123 });
 
     // use expect by jest
     expect(result.status).toBe(200);

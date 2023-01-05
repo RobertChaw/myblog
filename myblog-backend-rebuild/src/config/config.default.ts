@@ -1,4 +1,4 @@
-import {MidwayConfig} from '@midwayjs/core';
+import { MidwayConfig } from '@midwayjs/core';
 
 export default {
   // use for cookie sign key, should change to your own and keep security
@@ -11,8 +11,8 @@ export default {
   },
   cos: {
     client: {
-      SecretId: 'AKIDOgmgT4YjmeLqeKG7FB6qNiNwJUTGrY5T',
-      SecretKey: 'PglgzBHCuPjwyxqYNdmjU4TffjgS2Vns',
+      SecretId: process.env.COS_SECRET_ID,
+      SecretKey: process.env.COS_SECRET_KEY,
     },
   },
   passport: {

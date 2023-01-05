@@ -1,5 +1,5 @@
-import {PrismaClient} from '@prisma/client';
-import {faker} from '@faker-js/faker';
+import { PrismaClient } from '@prisma/client';
+import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
@@ -54,12 +54,12 @@ async function main() {
         tags: {
           connectOrCreate: [
             {
-              create: {title: '前端'},
-              where: {title: '前端'},
+              create: { title: '前端' },
+              where: { title: '前端' },
             },
             {
-              create: {title: '测试'},
-              where: {title: '测试'},
+              create: { title: '测试' },
+              where: { title: '测试' },
             },
           ],
         },

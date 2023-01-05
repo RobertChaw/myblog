@@ -1,4 +1,4 @@
-import {PrismaClient} from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 export const prisma = new PrismaClient();
 
@@ -12,7 +12,7 @@ prisma.$use(async (params, next) => {
         id,
       },
       data: {
-        viewCount: {increment: 1},
+        viewCount: { increment: 1 },
       },
     });
   }

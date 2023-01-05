@@ -1,6 +1,6 @@
-import {Body, Controller, Get, Inject, Post} from '@midwayjs/decorator';
-import {Context} from '@midwayjs/koa';
-import {COSService} from '@midwayjs/cos';
+import { Body, Controller, Get, Inject, Post } from '@midwayjs/decorator';
+import { Context } from '@midwayjs/koa';
+import { COSService } from '@midwayjs/cos';
 
 @Controller('/api')
 export class ArticleController {
