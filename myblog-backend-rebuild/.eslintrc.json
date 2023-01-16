@@ -1,7 +1,6 @@
 {
   "extends": [
-    "./node_modules/mwts/",
-    "prettier"
+    "./node_modules/mwts/"
   ],
   "ignorePatterns": [
     "node_modules",

@@ -75,3 +75,11 @@ model Comment {
   root      Comment?  @relation("relations", fields: [rootId], references: [id], onDelete: Cascade)
   nodes     Comment[] @relation("relations")
 }
+
+model Place {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  status    Int
+}
