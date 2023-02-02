@@ -1,12 +1,13 @@
 // @flow
 
 import {PageContainer} from '@ant-design/pro-components';
-import {Avatar, Card, message, Result} from 'antd';
-import {Button, Form, Input} from 'antd';
+import {Avatar, Card, message, Space, Typography, Upload} from 'antd';
+import {Button, Input} from 'antd';
 import {useNavigate, useParams} from 'umi';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {getUser, resetUser} from '@/services/ant-design-pro/api';
 import {useRequest} from 'ahooks';
+import {UploadChangeParam} from 'antd/lib/upload/interface';
 
 // function BindingGithub({value = null, onChange = undefined}: { value?: null | API.UserFromGitHub, onChange?: Event }) {
 //   const form = Form.useFormInstance();
@@ -47,34 +48,63 @@ import {useRequest} from 'ahooks';
 export default function () {
   const navigate = useNavigate();
   const {userid} = useParams();
-  const [form] = Form.useForm();
-  useRequest(() => getUser({id: userid}), {
+  const [user, setUser] = useState<API.User>({});
+
+  const {run: load} = useRequest(() => getUser({id: userid}), {
     onSuccess(data) {
       console.log(data);
-      form.setFieldsValue({...data});
+      setUser({...data});
     },
   });
 
-  const {runAsync: submit} = useRequest((body) => resetUser(body), {
+  const [userNameEditable, setUserNameEditable] = useState(false);
+  const [nameEditable, setNameEditable] = useState(false);
+  const [passwordEditable, setPasswordEditable] = useState(false);
+
+  const {run: submit} = useRequest((body) => resetUser(body), {
     manual: true,
+    onSuccess() {
+      message.success('提交成功');
+    },
+    onError() {
+      message.error('提交失败');
+    },
+    onFinally() {
+      load();
+    },
   });
 
-  const [isCompleted, setIsCompleted] = useState(false);
-  const onFinish = async (values: any) => {
-    console.log('Success:', values);
-    delete values['confirmedPassword'];
-    try {
-      await submit(values);
-      setIsCompleted(true);
-    } catch (e) {
-      message.error('提交失败');
-    }
-    // navigate(-1);
-  };
+  function handleNameSubmit() {
+    submit({name: user.name, id: userid});
+    setNameEditable(false);
+  }
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  function handleUserNameSubmit() {
+    submit({username: user.username, id: userid});
+    setUserNameEditable(false);
+  }
+
+  function handlePasswordSubmit() {
+    submit({password: user.password, id: userid});
+    setPasswordEditable(false);
+  }
+
+  function handleUpload(info: UploadChangeParam) {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+      const url = info.file.response.data;
+      submit({avatar: url, id: userid});
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  }
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <PageContainer>
@@ -83,81 +113,87 @@ export default function () {
           minHeight: 600,
         }}
       >
-        <Avatar src="https://joeschmoe.io/api/v1/random"/>
-        {!isCompleted ? (
-          <Form
-            style={{
-              // margin:"auto",
-              maxWidth: 600,
-            }}
-            form={form}
-            name="basic"
-            labelCol={{span: 8}}
-            wrapperCol={{span: 16}}
-            initialValues={{}}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item label="ID" name="id" rules={[{required: true, message: '请输入ID'}]}>
-              <Input type="text" disabled/>
-            </Form.Item>
-            <Form.Item
-              label="用户名"
-              name="username"
-              rules={[{required: true, message: 'Please input your username!'}]}
-            >
-              <Input/>
-            </Form.Item>
-
-            <Form.Item
-              label="密码"
-              name="password"
-              rules={[{required: true, message: 'Please input your password!'}]}
-            >
-              <Input.Password/>
-            </Form.Item>
-
-            <Form.Item
-              label="确认密码"
-              name="confirmedPassword"
-              rules={[
-                {
-                  required: true,
-                  validator: async (rule, value) => {
-                    if (form.getFieldValue('password') !== value)
-                      throw new Error('两次密码不相等!');
-                  },
-                  message: '两次密码不相等!',
-                },
-              ]}
-            >
-              <Input.Password/>
-            </Form.Item>
-            {/*<Form.Item*/}
-            {/*  label="Github绑定账号">*/}
-            {/*  <BindingGithub/>*/}
-            {/*</Form.Item>*/}
-            <Form.Item wrapperCol={{offset: 8, span: 16}}>
-              <Button type="primary" htmlType="submit">
-                提交
-              </Button>
-            </Form.Item>
-          </Form>
-        ) : (
-          <Result
-            status="success"
-            title="表单提交成功！"
-            style={{
-              minHeight: 900,
-            }}
-            extra={
-              <Button type="primary" onClick={() => navigate(-1)}>
-                返回上一页
-              </Button>
-            }
-          />
-        )}
+        <Space direction="vertical" size="large">
+          <div>
+            <Typography.Text>ID:</Typography.Text>
+            <Space direction="horizontal" style={{display: 'flex'}}>
+              <Input disabled value={user.id} style={{width: 240}}/>
+            </Space>
+          </div>
+          <div>
+            <Typography.Text>头像:</Typography.Text>
+            <Space direction="horizontal" style={{display: 'flex'}}>
+              <Avatar src={user.avatar}/>
+              <Upload
+                name="file"
+                action="/api/upload"
+                maxCount={1}
+                showUploadList={false}
+                onChange={handleUpload}
+              >
+                <Button>修改头像</Button>
+              </Upload>
+            </Space>
+          </div>
+          <div>
+            <Typography.Text>登录名:</Typography.Text>
+            <Space direction="horizontal" style={{display: 'flex'}}>
+              <Input
+                disabled={!userNameEditable}
+                value={user.username}
+                onChange={(e) => setUser({...user, username: e.target.value})}
+                style={{width: 240}}
+              />
+              {!userNameEditable ? (
+                <Button onClick={() => setUserNameEditable(true)} style={{width: 120}}>
+                  修改登录名
+                </Button>
+              ) : (
+                <Button onClick={handleUserNameSubmit}>提交</Button>
+              )}
+            </Space>
+          </div>
+          <div>
+            <Typography.Text>用户名:</Typography.Text>
+            <Space direction="horizontal" style={{display: 'flex'}}>
+              <Input
+                disabled={!nameEditable}
+                value={user.name}
+                onChange={(e) => setUser({...user, name: e.target.value})}
+                style={{width: 240}}
+              />
+              {!nameEditable ? (
+                <Button onClick={() => setNameEditable(true)} style={{width: 120}}>
+                  修改用户名
+                </Button>
+              ) : (
+                <Button onClick={handleNameSubmit}>提交</Button>
+              )}
+            </Space>
+          </div>
+          <div>
+            <Typography.Text>密码:</Typography.Text>
+            <Space direction="horizontal" style={{display: 'flex'}}>
+              <Input.Password
+                value={passwordEditable ? user.password : '********'}
+                disabled={!passwordEditable}
+                onChange={(e) => setUser({...user, password: e.target.value})}
+                style={{width: 240}}
+              />
+              {!passwordEditable ? (
+                <Button onClick={() => setPasswordEditable(true)} style={{width: 120}}>
+                  修改密码
+                </Button>
+              ) : (
+                <Button onClick={handlePasswordSubmit}>提交</Button>
+              )}
+            </Space>
+          </div>
+        </Space>
+        <br/>
+        <Button style={{marginTop: 40}} type="primary" onClick={() => navigate(-1)}>
+          返回上一页
+        </Button>
       </Card>
     </PageContainer>
   );

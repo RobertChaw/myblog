@@ -150,4 +150,13 @@ declare namespace API {
     url?: string;
     isBanned?: boolean;
   };
+
+  type Place = {
+    id?: number,
+    createdAt?: Date,
+    updatedAt?: Date,
+    name?: string,
+    status?: number
+  };
 }
+

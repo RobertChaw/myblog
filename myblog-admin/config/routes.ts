@@ -89,6 +89,12 @@ export default [
     component: './Tags',
   },
   {
+    name: '旅行地图页面',
+    icon: 'table',
+    path: '/travelMap',
+    component: './TravelMap',
+  },
+  {
     name: '关于页面',
     icon: 'table',
     path: '/about',
@@ -114,7 +120,7 @@ export default [
         hideInMenu: true,
         icon: 'table',
         path: 'edit/:userid',
-        component: './ManagingUser/Edit1',
+        component: './ManagingUser/Edit',
       },
     ],
   },

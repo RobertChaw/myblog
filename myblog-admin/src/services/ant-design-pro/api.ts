@@ -209,3 +209,23 @@ export async function updateAnncmnt(body: { [key: string]: any }) {
     data: body,
   });
 }
+
+export async function getPlacesList() {
+  return request<API.Place[]>('/api/getPlacesList', {
+    method: 'GET',
+  });
+}
+
+export async function addPlace(body: { [key: string]: any }) {
+  return request<API.Place[]>('/api/addPlace', {
+    method: 'POST',
+    data: body,
+  });
+}
+
+export async function delPlace(body: { [key: string]: any }) {
+  return request<Record<string, any>>('/api/delPlace', {
+    method: 'POST',
+    data: body,
+  });
+}
