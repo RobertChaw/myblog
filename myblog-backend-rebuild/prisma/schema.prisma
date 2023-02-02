@@ -81,5 +81,6 @@ model Place {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String   @unique
+  date      Int
   status    Int
 }
