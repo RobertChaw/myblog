@@ -60,6 +60,15 @@ declare namespace API {
     // githubProfile?: UserFromGitHub;
   };
 
+  type Place = {
+    id?: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+    name?: string;
+    status?: number;
+    date?: number;
+  };
+
   type MyResponseType<T> = {
     success: boolean;
     message: string;

@@ -138,3 +138,9 @@ export async function getAnncmnt() {
     method: "GET",
   });
 }
+
+export async function getPlacesList() {
+  return request<API.Place[]>('/api/getPlacesList', {
+    method: 'GET',
+  });
+}

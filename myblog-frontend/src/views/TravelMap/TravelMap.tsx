@@ -141,7 +141,7 @@ export default function TravelMap() {
         setSelectedPlace(name);
       },
       click: () => {
-        if (placesMap.has(name)) message.error(`${name} 已经去过`);
+
       },
     });
   };

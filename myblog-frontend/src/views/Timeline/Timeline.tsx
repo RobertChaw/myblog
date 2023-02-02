@@ -85,11 +85,12 @@ export default function () {
   const sortedArticles = sortByMonth(articles);
   const navigate = useNavigate();
   const timelineItems = sortedArticles.map((item) => (
-    <Timeline.Item>
+    <Timeline.Item key={`timeline-item-${item.date}`}>
       <Space direction="vertical" style={{ display: "flex" }}>
         <Typography.Title level={5}>{item.date}</Typography.Title>
         {item.list.map((i) => (
           <Button
+            key={`item-link-${i.id}`}
             type="text"
             size="large"
             onClick={() => navigate(`/index/article/${i.id}`)}
@@ -102,7 +103,9 @@ export default function () {
               <Typography.Paragraph>
                 <Space split={<Divider type="vertical" />}>
                   {i?.tags?.map((t) => (
-                    <Typography.Text>{t.title}</Typography.Text>
+                    <Typography.Text key={`item-${i.id}-tags-${t.id}`}>
+                      {t.title}
+                    </Typography.Text>
                   ))}
                 </Space>
               </Typography.Paragraph>
